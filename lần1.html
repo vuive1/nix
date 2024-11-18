@@ -19,18 +19,14 @@
         function recordStep1() {
             var email = document.getElementById('email').value;
             if (email) {
-                var url = 'https://script.google.com/macros/s/YOUR_SCRIPT_URL_HERE/exec?action=step1&email=' + email;
-                
+                var url = 'https://script.google.com/macros/s/AKfycbzKlnVzwLzDM1mtQglg0-zP2Kk_6B-TkjhlqCSkXUjpykS-oxpXplr6W-gM9Sxn4EBt6Q/exec?action=step1&email=' + email;
                 fetch(url)
                     .then(response => response.text())
                     .then(data => {
-                        alert("Điểm danh lần 1 thành công!");
+                        alert("Xác minh Gmail thành công, tiến hành điểm danh lần 1!");
                         window.location.href = "https://sites.google.com/view/nix11111111111?usp=sharing";
                     })
-                    .catch(error => {
-                        console.error("Có lỗi xảy ra:", error);
-                        alert("Có lỗi xảy ra, vui lòng thử lại.");
-                    });
+                    .catch(error => alert("Có lỗi xảy ra: " + error));
             } else {
                 alert("Vui lòng nhập Gmail của bạn.");
             }
