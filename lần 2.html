@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bước 2: Điểm danh</title>
+</head>
+<body>
+    <h1>Điểm danh - Bước 2</h1>
+    <p>Nhấn nút dưới đây để điểm danh lần 2.</p>
+    
+    <form id="form2">
+        <label for="email">Nhập Gmail của bạn:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="button" onclick="recordStep2()">Điểm danh lần 2</button>
+    </form>
+
+    <script>
+        function recordStep2() {
+            var email = document.getElementById('email').value;
+            if (email) {
+                var url = 'https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?action=step2&email=' + email;
+                fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        alert("Điểm danh lần 2 thành công!");
+                        window.location.href = "https://your-google-site-url-step2";
+                    })
+                    .catch(error => alert("Có lỗi xảy ra: " + error));
+            } else {
+                alert("Vui lòng nhập Gmail của bạn.");
+            }
+        }
+    </script>
+</body>
+</html>
