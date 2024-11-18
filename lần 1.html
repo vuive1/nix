@@ -19,12 +19,12 @@
         function recordStep1() {
             var email = document.getElementById('email').value;
             if (email) {
-                var url = 'https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec?action=step1&email=' + email;
+                var url = 'https://script.google.com/macros/s/AKfycbzKlnVzwLzDM1mtQglg0-zP2Kk_6B-TkjhlqCSkXUjpykS-oxpXplr6W-gM9Sxn4EBt6Q/exec?action=step1&email=' + email;
                 fetch(url)
                     .then(response => response.text())
                     .then(data => {
                         alert("Điểm danh lần 1 thành công!");
-                        window.location.href = "https://your-google-site-url-step2";
+                        window.location.href = "https://sites.google.com/view/nix11111111111?usp=sharing";
                     })
                     .catch(error => alert("Có lỗi xảy ra: " + error));
             } else {
