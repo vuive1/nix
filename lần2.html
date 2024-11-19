@@ -7,26 +7,39 @@
 </head>
 <body>
     <h1>Điểm danh - Bước 2</h1>
-    <p>Nhấn nút dưới đây để điểm danh lần 2.</p>
-    
+    <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
     <form id="form2">
         <label for="email">Nhập Gmail của bạn:</label>
         <input type="email" id="email" name="email" required>
-        <button type="button" onclick="recordStep2()">Điểm danh lần 2</button>
+        <button type="button" id="submit2" onclick="recordStep2()">Điểm danh lần 2</button>
+        <p id="status2"></p>
     </form>
 
     <script>
         function recordStep2() {
             var email = document.getElementById('email').value;
             if (email) {
-                var url = 'https://script.google.com/macros/s/AKfycbzKlnVzwLzDM1mtQglg0-zP2Kk_6B-TkjhlqCSkXUjpykS-oxpXplr6W-gM9Sxn4EBt6Q/exec?action=step2&email=' + email;
+                var button = document.getElementById('submit2');
+                var status = document.getElementById('status2');
+                button.disabled = true;
+                status.textContent = "Đang xác minh Gmail...";
+                var url = 'https://script.google.com/macros/s/AKfycbyWnry1liunagf9SE7jc6KBHBAOGxXIOEDFt-YcwMmScalmJvrR4haJZ8nVz9kXL0-6nw/exec?action=step2&email=' + email;
                 fetch(url)
                     .then(response => response.text())
                     .then(data => {
-                        alert("Điểm danh lần 2 thành công!");
-                        window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
+                        alert(data);
+                        if (data.includes("thành công")) {
+                            window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
+                        } else {
+                            button.disabled = false;
+                            status.textContent = "";
+                        }
                     })
-                    .catch(error => alert("Có lỗi xảy ra: " + error));
+                    .catch(error => {
+                        alert("Có lỗi xảy ra: " + error);
+                        button.disabled = false;
+                        status.textContent = "";
+                    });
             } else {
                 alert("Vui lòng nhập Gmail của bạn.");
             }
@@ -34,4 +47,3 @@
     </script>
 </body>
 </html>
-
