@@ -3,47 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bước 2: Điểm danh</title>
-</head>
-<body>
-    <h1>Điểm danh - Bước 2</h1>
-    <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
-    <form id="form2">
-        <label for="email">Nhập Gmail của bạn:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="button" id="submit2" onclick="recordStep2()">Điểm danh lần 2</button>
-        <p id="status2"></p>
-    </form>
-
+    <title>Điểm danh lần 2</title>
     <script>
-        function recordStep2() {
-            var email = document.getElementById('email').value;
-            if (email) {
-                var button = document.getElementById('submit2');
-                var status = document.getElementById('status2');
-                button.disabled = true;
-                status.textContent = "Đang xác minh Gmail...";
-                var url = 'https://script.google.com/macros/s/AKfycbyWnry1liunagf9SE7jc6KBHBAOGxXIOEDFt-YcwMmScalmJvrR4haJZ8nVz9kXL0-6nw/exec?action=step2&email=' + email;
-                fetch(url)
-                    .then(response => response.text())
-                    .then(data => {
-                        alert(data);
-                        if (data.includes("thành công")) {
-                            window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
-                        } else {
-                            button.disabled = false;
-                            status.textContent = "";
-                        }
-                    })
-                    .catch(error => {
-                        alert("Có lỗi xảy ra: " + error);
-                        button.disabled = false;
-                        status.textContent = "";
-                    });
-            } else {
-                alert("Vui lòng nhập Gmail của bạn.");
-            }
+        function handleFormSubmit() {
+            document.getElementById("btn").disabled = true;
+            document.getElementById("status").innerText = "Đang xác minh gmail ...";
+            var email = document.getElementById("email").value;
+            var url = "https://script.google.com/macros/s/AKfycbz5Zve3V52VNcRLVeALUjUZolCBZZlnUuuMpNWARouJjEzG03JJniihc0bUJoE20fRcrQ/exec?email=" + email + "&action=step2";
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    if (data.includes("recorded successfully")) {
+                        document.getElementById("status").innerText = "Điểm danh thành công!";
+                        setTimeout(function() {
+                            window.location.href = "https://sites.google.com/view/222222222221?usp=sharing"; 
+                        }, 2000);
+                    } else {
+                        document.getElementById("status").innerText = data;
+                        document.getElementById("btn").disabled = false;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById("status").innerText = "Có lỗi xảy ra!";
+                    document.getElementById("btn").disabled = false;
+                });
         }
     </script>
+</head>
+<body>
+    <h2>Điểm danh lần 2</h2>
+    <form onsubmit="event.preventDefault(); handleFormSubmit();">
+        <input type="email" id="email" required placeholder="Nhập email của bạn">
+        <button id="btn" type="submit">Điểm danh</button>
+    </form>
+    <p id="status"></p>
 </body>
 </html>
