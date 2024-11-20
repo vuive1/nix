@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điểm danh</title>
-    <script>
-        function handleFormSubmit() {
-            document.getElementById("btn").disabled = true;
-            document.getElementById("status").innerText = "Đang xác minh gmail ...";
-            var email = document.getElementById("email").value;
-            var url = "https://script.google.com/macros/s/AKfycbz5Zve3V52VNcRLVeALUjUZolCBZZlnUuuMpNWARouJjEzG03JJniihc0bUJoE20fRcrQ/exec?email=" + email + "&action=step1";
-            fetch(url)
-                .then(response => response.text())
-                .then(data => {
-                    if (data.includes("recorded successfully")) {
-                        document.getElementById("status").innerText = "Xác minh gmail thành công, tiếp tục điểm danh";
-                        setTimeout(function() {
-                            window.location.href = "https://sites.google.com/view/nix11111111111?usp=sharing"; 
-                        }, 2000);
-                    } else {
-                        document.getElementById("status").innerText = data;
-                        document.getElementById("btn").disabled = false;
-                    }
-                })
-                .catch(err => {
-                    document.getElementById("status").innerText = "Có lỗi xảy ra!";
-                    document.getElementById("btn").disabled = false;
-                });
-        }
-    </script>
+    <title>Điểm danh lần 1</title>
 </head>
 <body>
-    <h2>Điểm danh</h2>
-    <form onsubmit="event.preventDefault(); handleFormSubmit();">
-        <input type="email" id="email" required placeholder="Nhập email của bạn">
-        <button id="btn" type="submit">Điểm danh</button>
+    <h1>Điểm danh lần 1</h1>
+    <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
+    <form id="form1">
+        <label for="email">Nhập Gmail của bạn:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="button" id="submit" onclick="recordStep()">Điểm danh</button>
     </form>
     <p id="status"></p>
+
+    <script>
+        function recordStep() {
+            const email = document.getElementById('email').value;
+            const status = document.getElementById('status');
+            const button = document.getElementById('submit');
+
+            if (email) {
+                button.disabled = true;
+                status.textContent = "Vui lòng đợi, gmail đang được xác minh ...";
+                
+                fetch('https://script.google.com/macros/s/AKfycbzo9ExgOqvzBDsTqFW_vB40vOrAoqBMljeO1J83pOpHJLuEOuX50NWi0xBGJJoedledOw/exec?action=step1&email=' + encodeURIComponent(email))
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data.includes("thành công")) {
+                            status.textContent = data;
+                            setTimeout(() => {
+                                window.location.href = 'https://sites.google.com/view/nix11111111111?usp=sharing';
+                            }, 3000);
+                        } else {
+                            status.textContent = data;
+                            button.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        status.textContent = "Có lỗi xảy ra: " + error;
+                        button.disabled = false;
+                    });
+            } else {
+                alert("Vui lòng nhập Gmail của bạn.");
+            }
+        }
+    </script>
 </body>
 </html>
