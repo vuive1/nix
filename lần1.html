@@ -1,51 +1,52 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Điểm danh lần 1</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Điểm danh lần 1</title>
 </head>
 <body>
-    <h1>Điểm danh lần 1</h1>
-    <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
-    <form id="form1">
-        <label for="email">Nhập Gmail của bạn:</label>
-        <input type="email" id="email" name="email" required>
-        <button type="button" id="submit" onclick="recordStep()">Điểm danh</button>
-    </form>
-    <p id="status"></p>
+  <h1>Điểm danh lần 1</h1>
+  <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
+  <div id="status"></div>
+  <button id="checkinButton" onclick="handleCheckIn()">Điểm danh</button>
 
-    <script>
-        function recordStep() {
-            const email = document.getElementById('email').value;
-            const status = document.getElementById('status');
-            const button = document.getElementById('submit');
+  <script>
+    function handleCheckIn() {
+      document.getElementById("checkinButton").disabled = true;
+      document.getElementById("status").innerHTML = "Vui lòng đợi, gmail đang được xác minh ...";
 
-            if (email) {
-                button.disabled = true;
-                status.textContent = "Vui lòng đợi, gmail đang được xác minh ...";
-                
-                fetch('https://script.google.com/macros/s/AKfycbzo9ExgOqvzBDsTqFW_vB40vOrAoqBMljeO1J83pOpHJLuEOuX50NWi0xBGJJoedledOw/exec?action=step1&email=' + encodeURIComponent(email))
-                    .then(response => response.text())
-                    .then(data => {
-                        if (data.includes("thành công")) {
-                            status.textContent = data;
-                            setTimeout(() => {
-                                window.location.href = 'https://sites.google.com/view/nix11111111111?usp=sharing';
-                            }, 3000);
-                        } else {
-                            status.textContent = data;
-                            button.disabled = false;
-                        }
-                    })
-                    .catch(error => {
-                        status.textContent = "Có lỗi xảy ra: " + error;
-                        button.disabled = false;
-                    });
+      var email = prompt("Vui lòng nhập Gmail của bạn:");
+      if (email) {
+        var payload = {
+          email: email
+        };
+
+        var options = {
+          "method": "POST",
+          "contentType": "application/json",
+          "payload": JSON.stringify(payload)
+        };
+
+        fetch('https://script.google.com/macros/s/AKfycbzxayBCnldXd0fsH7exickhNso2xDNyWGGeq1dlnOK2iROwe1ECW7aySimVwilEdnQd9w/exec', options)
+          .then(response => response.json())
+          .then(data => {
+            if (data.message.includes("Gmail")) {
+              setTimeout(() => {
+                alert(data.message);
+                window.location.href = "https://sites.google.com/view/nix11111111111?usp=sharing";
+              }, 3000);
             } else {
-                alert("Vui lòng nhập Gmail của bạn.");
+              alert(data.message);
+              document.getElementById("checkinButton").disabled = false;
             }
-        }
-    </script>
+          })
+          .catch(error => {
+            alert("Có lỗi xảy ra, vui lòng thử lại sau.");
+            document.getElementById("checkinButton").disabled = false;
+          });
+      }
+    }
+  </script>
 </body>
 </html>
