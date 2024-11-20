@@ -1,52 +1,37 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Điểm danh lần 2</title>
+    <meta charset="UTF-8">
+    <title>Web Tĩnh Lần 2</title>
+    <script src="https://apis.google.com/js/platform.js"></script>
 </head>
 <body>
-  <h1>Điểm danh lần 2</h1>
-  <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
-  <div id="status"></div>
-  <button id="checkinButton" onclick="handleCheckIn()">Điểm danh</button>
+    <h2>Điểm Danh Lần 2</h2>
+    <input type="email" id="email" placeholder="Nhập Gmail" required>
+    <button id="submitBtn" onclick="submitForm('page2')">Điểm Danh</button>
+    <p id="status"></p>
 
-  <script>
-    function handleCheckIn() {
-      document.getElementById("checkinButton").disabled = true;
-      document.getElementById("status").innerHTML = "Vui lòng đợi, gmail đang được xác minh ...";
+    <script>
+        function submitForm(page) {
+            var email = document.getElementById('email').value;
+            var submitBtn = document.getElementById('submitBtn');
+            var status = document.getElementById('status');
+            
+            submitBtn.disabled = true;
+            status.innerText = 'Vui lòng đợi, gmail đang được xác minh...';
 
-      var email = prompt("Vui lòng nhập Gmail của bạn:");
-      if (email) {
-        var payload = {
-          email: email
-        };
-
-        var options = {
-          "method": "POST",
-          "contentType": "application/json",
-          "payload": JSON.stringify(payload)
-        };
-
-        fetch('https://script.google.com/macros/s/AKfycbzxayBCnldXd0fsH7exickhNso2xDNyWGGeq1dlnOK2iROwe1ECW7aySimVwilEdnQd9w/exec', options)
-          .then(response => response.json())
-          .then(data => {
-            if (data.message.includes("Gmail")) {
-              setTimeout(() => {
-                alert(data.message);
-                window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
-              }, 3000);
-            } else {
-              alert(data.message);
-              document.getElementById("checkinButton").disabled = false;
-            }
-          })
-          .catch(error => {
-            alert("Có lỗi xảy ra, vui lòng thử lại sau.");
-            document.getElementById("checkinButton").disabled = false;
-          });
-      }
-    }
-  </script>
+            google.script.run.withSuccessHandler(function(response) {
+                if (response === 'wait') {
+                    status.innerText = 'Gmail này đã được xác minh gần đây, vui lòng thử lại sau 5 phút nữa.';
+                    submitBtn.disabled = false;
+                } else if (response === 'success') {
+                    status.innerText = 'Gmail được xác minh thành công, tiến hành điểm danh.';
+                    setTimeout(function() {
+                        window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
+                    }, 3000);
+                }
+            }).processRequest(email, page);
+        }
+    </script>
 </body>
 </html>
