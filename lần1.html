@@ -28,15 +28,10 @@
                 fetch('https://script.google.com/macros/s/AKfycbyRvnVr_WUBQmdWqs5qQW5Gja37hw4HEpzOYo8xNs-rBI1ywleUrXFBai-xFY8OkiseJg/exec?action=step1&email=' + encodeURIComponent(email))
                     .then(response => response.text())
                     .then(data => {
-                        if (data.includes("Gmail này đã được xác minh gần đây")) {
-                            status.textContent = data;
-                            button.disabled = false;
-                        } else {
-                            status.textContent = data;
-                            setTimeout(() => {
-                                window.location.href = 'https://sites.google.com/view/nix11111111111?usp=sharing';
-                            }, 3000);
-                        }
+                        status.textContent = data;
+                        setTimeout(() => {
+                            window.location.href = 'https://sites.google.com/view/nix11111111111?usp=sharing';
+                        }, 3000);
                     })
                     .catch(error => {
                         status.textContent = "Có lỗi xảy ra: " + error;
