@@ -2,12 +2,13 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Web Tĩnh Lần 2</title>
+    <title>Web Tĩnh Lần 1</title>
+    <script src="https://apis.google.com/js/platform.js"></script>
 </head>
 <body>
-    <h2>Điểm Danh Lần 2</h2>
+    <h2>Điểm Danh Lần 1</h2>
     <input type="email" id="email" placeholder="Nhập Gmail" required>
-    <button id="submitBtn" onclick="submitForm('page2')">Điểm Danh</button>
+    <button id="submitBtn" onclick="submitForm('page1')">Điểm Danh</button>
     <p id="status"></p>
 
     <script>
@@ -26,7 +27,7 @@
                 } else if (response === 'success') {
                     status.innerText = 'Gmail được xác minh thành công, tiến hành điểm danh.';
                     setTimeout(function() {
-                        window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
+                        window.location.href = "https://sites.google.com/view/nix11111111111?usp=sharing";
                     }, 3000);
                 }
             }).processRequest(email, page);
