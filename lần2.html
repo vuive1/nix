@@ -25,7 +25,7 @@
                 button.disabled = true;
                 status.textContent = "Vui lòng đợi, gmail đang được xác minh ...";
 
-                fetch('https://script.google.com/macros/s/AKfycbyRvnVr_WUBQmdWqs5qQW5Gja37hw4HEpzOYo8xNs-rBI1ywleUrXFBai-xFY8OkiseJg/exec?action=step2&email=' + encodeURIComponent(email))
+                fetch('https://script.google.com/macros/s/AKfycbwMmVThcnIBzv-7iqqD-qLu16buXk4U7Ot3Kj60Nn5C2g11jFoNZCl7LLIBExxB7liipQ/exec?action=step2&email=' + encodeURIComponent(email))
                     .then(response => response.text())
                     .then(data => {
                         status.textContent = data;
