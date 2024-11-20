@@ -2,35 +2,49 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Web Tĩnh Lần 2</title>
-    <script src="https://apis.google.com/js/platform.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điểm danh lần 2</title>
 </head>
 <body>
-    <h2>Điểm Danh Lần 2</h2>
-    <input type="email" id="email" placeholder="Nhập Gmail" required>
-    <button id="submitBtn" onclick="submitForm('page2')">Điểm Danh</button>
+    <h1>Điểm danh lần 2</h1>
+    <p>Vui lòng chỉ nhấn vào nút điểm danh 1 lần duy nhất và đợi xác minh.</p>
+    <form id="form2">
+        <label for="email">Nhập Gmail của bạn:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="button" id="submit" onclick="recordStep()">Điểm danh</button>
+    </form>
     <p id="status"></p>
 
     <script>
-        function submitForm(page) {
-            var email = document.getElementById('email').value;
-            var submitBtn = document.getElementById('submitBtn');
-            var status = document.getElementById('status');
-            
-            submitBtn.disabled = true;
-            status.innerText = 'Vui lòng đợi, gmail đang được xác minh...';
+        function recordStep() {
+            const email = document.getElementById('email').value;
+            const status = document.getElementById('status');
+            const button = document.getElementById('submit');
 
-            google.script.run.withSuccessHandler(function(response) {
-                if (response === 'wait') {
-                    status.innerText = 'Gmail này đã được xác minh gần đây, vui lòng thử lại sau 5 phút nữa.';
-                    submitBtn.disabled = false;
-                } else if (response === 'success') {
-                    status.innerText = 'Gmail được xác minh thành công, tiến hành điểm danh.';
-                    setTimeout(function() {
-                        window.location.href = "https://sites.google.com/view/222222222221?usp=sharing";
-                    }, 3000);
-                }
-            }).processRequest(email, page);
+            if (email) {
+                button.disabled = true;
+                status.textContent = "Vui lòng đợi, gmail đang được xác minh ...";
+
+                fetch('https://script.google.com/macros/s/AKfycbyRvnVr_WUBQmdWqs5qQW5Gja37hw4HEpzOYo8xNs-rBI1ywleUrXFBai-xFY8OkiseJg/exec?action=step2&email=' + encodeURIComponent(email))
+                    .then(response => response.text())
+                    .then(data => {
+                        if (data.includes("thành công")) {
+                            status.textContent = data;
+                            setTimeout(() => {
+                                window.location.href = 'https://sites.google.com/view/222222222221?usp=sharing';
+                            }, 3000);
+                        } else {
+                            status.textContent = data;
+                            button.disabled = false;
+                        }
+                    })
+                    .catch(error => {
+                        status.textContent = "Có lỗi xảy ra: " + error;
+                        button.disabled = false;
+                    });
+            } else {
+                alert("Vui lòng nhập Gmail của bạn.");
+            }
         }
     </script>
 </body>
