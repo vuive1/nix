@@ -28,15 +28,10 @@
                 fetch('https://script.google.com/macros/s/AKfycbyRvnVr_WUBQmdWqs5qQW5Gja37hw4HEpzOYo8xNs-rBI1ywleUrXFBai-xFY8OkiseJg/exec?action=step2&email=' + encodeURIComponent(email))
                     .then(response => response.text())
                     .then(data => {
-                        if (data.includes("thành công")) {
-                            status.textContent = data;
-                            setTimeout(() => {
-                                window.location.href = 'https://sites.google.com/view/222222222221?usp=sharing';
-                            }, 3000);
-                        } else {
-                            status.textContent = data;
-                            button.disabled = false;
-                        }
+                        status.textContent = data;
+                        setTimeout(() => {
+                            window.location.href = 'https://sites.google.com/view/222222222221?usp=sharing';
+                        }, 3000);
                     })
                     .catch(error => {
                         status.textContent = "Có lỗi xảy ra: " + error;
